@@ -25,16 +25,16 @@ export default function Navbar() {
           </Link>
         </div>
         <div className='flex items-center justify-end gap-3'>
-          <a
+          <Link
             className='hidden items-center justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 sm:inline-flex'
-            href='/login'>
+            to='signup'>
             Sign Up
-          </a>
-          <a
+          </Link>
+          <Link
             className='inline-flex items-center justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
-            href='/login'>
+            to='login'>
             Log In
-          </a>
+          </Link>
         </div>
       </div>
     </div>

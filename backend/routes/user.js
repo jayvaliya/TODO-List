@@ -26,12 +26,12 @@ router.post('/signup', async (req, res) => {
         const user = await User.findOne({ email });
 
         if (user) {
-            res.json({ msg: "User alrady exist." });
+            res.status().json({ msg: "User alrady exist." });
             return;
         }
 
         await User.create({ email, password });
-        res.json({ msg: "User created successfully." });
+        res.status(201).json({ msg: "User created successfully." });
 
     } catch (err) {
         res.status(500).json({ msg: "Internal server error in signup." });
@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
         const user = await User.findOne({ email, password });
         if (user) {
             const token = jwt.sign({ email }, jwtPassword);
-            res.json({ token });
+            res.status(200).json({ token });
             return;
         }
         res.json({ msg: "Invalid email or password." });
@@ -76,7 +76,7 @@ router.get('/todo', userMiddleware, async (req, res) => {
             }
         });
 
-        res.send({ todos });
+        res.status(200).send({ todos });
 
     } catch (error) {
         console.error('Error getting Todos:', error);

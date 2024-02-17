@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
+
 
 export default function Login() {
   const url = 'https://justdoit-x194.onrender.com/user/login';
@@ -13,17 +15,15 @@ export default function Login() {
   const handleChange = async (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
-    // console.log(formValues)
   };
 
 
-
-  // login logic
+  // login logic------------------------------------
   const onLogin = async (e) => {
     e.preventDefault();
 
     if ( !formValues.email || !formValues.password ) {
-      toast.error('Please check your input fields.');
+      toast.error('Please enter Email and Password');
       return;
     }
 
@@ -35,10 +35,9 @@ export default function Login() {
         password: formValues.password,
       });
 
-      // Assuming your server returns a status and a message
       if (response.status === 200) {
         toast.update(id, {
-          render: response.data.msg, // Make sure your server returns the correct structure
+          render: response.data.msg,
           type: 'success',
           isLoading: false,
           autoClose: 5000,
@@ -50,11 +49,11 @@ export default function Login() {
     } catch (error) {
       console.error(error);
 
-      if (error.response) {
+      if (response) {
         // The request was made, but the server responded with a status code
         // that falls out of the range of 2xx
         toast.update(id, {
-          render: error.response.data.msg, // Assuming your server returns an error message
+          render: response.data.msg,
           type: 'error',
           isLoading: false,
           autoClose: 5000,
@@ -80,7 +79,7 @@ export default function Login() {
             alt='logo'
           />
         </a>
-        <div className='w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0'>
+        <div className='w-full bg-white rounded-lg shadow-lg shadow-gray-400 md:mt-0 sm:max-w-md xl:p-0'>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
             <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl'>
               Login to your account
@@ -127,12 +126,12 @@ export default function Login() {
               </button>
 
               <p className='text-sm font-light text-gray-500'>
-                Already have an account?{' '}
-                <a
-                  href='#'
+                New here?{' '}
+                <Link
+                  to='/signup'
                   className='font-medium text-primary-600 hover:underline'>
-                  Login here
-                </a>
+                  Creater account
+                </Link>
               </p>
             </form>
           </div>

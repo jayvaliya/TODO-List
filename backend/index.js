@@ -17,7 +17,7 @@ const limiter = rateLimit({
   // store: ... , // Use an external store for consistency across multiple server instances.
 });
 
-app.use(limiter);
+// app.use(limiter);
 
 app.use(express.json()); //To access body of request.
 app.use(
