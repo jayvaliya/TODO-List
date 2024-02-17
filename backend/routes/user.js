@@ -9,15 +9,23 @@ const jwtPassword = process.env.jwtPassword;
 
 router.post('/signup', async (req, res) => {
     try {
+        const creatPayload = req.body;
+        const parsedPayload = login.safeParse(creatPayload);
+        if (!parsedPayload.success) {
+            res.status(411).json({
+                msg: "Invalid inputes."
+            });
+            return;
+        }
 
-        const { username, password } = req.body;
-        const user = await User.findOne({ username });
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
 
         if (user) {
             res.json({ msg: "User alrady exist." });
         }
 
-        await User.create({ username, password });
+        await User.create({ email, password });
         res.json({ msg: "User created successfully." });
 
     } catch (err) {
@@ -27,15 +35,25 @@ router.post('/signup', async (req, res) => {
 
 router.post('/signin', async (req, res) => {
     try {
-        const { username, password } = req.body;
-        const user = await User.find({ username, password });
-
-        if (!user) {
-            return res.json({ msg: "Invalid username or password." });
+        const creatPayload = req.body;
+        const parsedPayload = login.safeParse(creatPayload);
+        if (!parsedPayload.success) {
+            res.status(411).json({
+                msg: "Invalid inputes."
+            });
+            return;
         }
+        const { email, password } = req.body;
+        const user = await User.findOne({ email, password });
+        if (user) {
+            const token = jwt.sign({ email }, jwtPassword);
+            res.json({ token });
+            return;
+        }
+        res.json({ msg: "Invalid email or password." });
 
-        const token = jwt.sign({ username }, jwtPassword);
-        res.json({ token });
+        return;
+
     } catch (err) {
         res.status(500).json({ msg: "Internal server error in sighin." });
     }
@@ -43,9 +61,9 @@ router.post('/signin', async (req, res) => {
 
 router.get('/todo', userMiddleware, async (req, res) => {
     try {
-        const username = req.username;
+        const email = req.email;
 
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ email });
 
         const todos = await Todos.find({
             _id: {
@@ -63,7 +81,6 @@ router.get('/todo', userMiddleware, async (req, res) => {
 
 router.post('/todo', userMiddleware, async (req, res) => {
     try {
-
         // form validation using zod
         const creatPayload = req.body;
         const parsedPayload = createTodo.safeParse(creatPayload);
@@ -74,22 +91,20 @@ router.post('/todo', userMiddleware, async (req, res) => {
             return;
         }
 
-
-        const username = req.username;
+        const email = req.email;
         const { title, description } = req.body;
 
         const todo = await Todos.create({ title, description });
 
-        const user = await User.updateOne({ username }, {
+        const user = await User.updateOne({ email }, {
             $push: { todoList: todo.id }
         });
-
-        res.json({
-            _id: todo.id
-        });
-
+        if(user.modifiedCount){
+            res.json({
+                _id: todo.id
+            });
+        }
     } catch (error) {
-        console.error('Error adding Todo:', error);
         res.status(500).json({ msg: 'Internal Server Error creating todo' });
     }
 });
@@ -135,7 +150,7 @@ router.post('/delete', userMiddleware, async (req, res) => {
             return;
         }
         
-        const username = req.username;
+        const email = req.email;
         const { id } = req.body;
 
         const todo = await Todos.findOne({ _id: id });
@@ -143,7 +158,7 @@ router.post('/delete', userMiddleware, async (req, res) => {
         if (todo) {
             await Todos.deleteOne({ _id: id });
 
-            await User.updateOne({ username }, {
+            await User.updateOne({ email }, {
                 '$pull': { todoList: id }
             });
         } else {

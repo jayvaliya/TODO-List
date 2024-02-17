@@ -7,8 +7,8 @@ function userMiddleware(req, res, next) {
     try {
         const token = req.headers['authorization'];
         const decoded = jwt.verify(token, jwtPassword);
-        if (decoded.username) {
-            req.username=decoded.username;
+        if (decoded.email) {
+            req.email=decoded.email;
             next();
         } else {
             res.json({ msg: "Invalid token." });

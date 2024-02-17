@@ -10,8 +10,10 @@ const updateTodo = z.object({
 });
 
 const login = z.object({
-    username: z.string(),
+    email: z.string().email(),
     password: z.string()
 });
+
+
 
 module.exports = { createTodo, updateTodo, login };

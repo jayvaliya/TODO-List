@@ -22,7 +22,7 @@ const TodoSchema = new mongoose.Schema({
 
 const UserSchema = new mongoose.Schema({
   // Schema definition here
-  username: {
+  email: {
     type: String,
     required: true,
     minlength: 5,

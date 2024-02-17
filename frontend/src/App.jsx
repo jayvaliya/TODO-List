@@ -5,6 +5,12 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Navbar from './components/Navbar';
 import SignUp from './pages/SignUp';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+/*
+  https://justdoit-x194.onrender.com
+*/
 
 function App() {
   const [count, setCount] = useState(0);
@@ -14,11 +20,23 @@ function App() {
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />}></Route>
+        <Route path='sighup' element={<SignUp />}></Route>
         <Route path='home' element={<Home />}></Route>
         <Route path='about' element={<About />}></Route>
-        <Route path='sighup' element={<SignUp />}></Route>
       </Routes>
       {/* <Home/> */}
+      <ToastContainer
+        position='top-center'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='dark'
+      />
     </div>
   );
 }
