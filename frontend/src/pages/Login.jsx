@@ -21,39 +21,44 @@ export default function Login() {
   // login logic------------------------------------
   const onLogin = async (e) => {
     e.preventDefault();
-
-    if ( !formValues.email || !formValues.password ) {
-      toast.error('Please enter Email and Password');
+  
+    if (!formValues.email || !formValues.password) {
+      toast.error('Please enter email and password.');
       return;
     }
 
     const id = toast.loading('Please wait...');
-
+  
     try {
       const response = await axios.post(url, {
         email: formValues.email,
-        password: formValues.password,
+        password: formValues.password
       });
-
-      if (response.status === 200) {
+      console.log(response);
+      if (response.status == 200) {
         toast.update(id, {
           render: response.data.msg,
           type: 'success',
           isLoading: false,
           autoClose: 5000,
         });
-        return;
+        localStorage.setItem('jwt', JSON.stringify(response.data.token));
       } else {
-        toast.error('Error while creating account');
+        toast.update(id, {
+          render: response.data.msg, 
+          type: 'error',
+          isLoading: false,
+          autoClose: 5000,
+        });
       }
     } catch (error) {
       console.error(error);
-
-      if (response) {
+  
+      if (error.response) {
         // The request was made, but the server responded with a status code
         // that falls out of the range of 2xx
         toast.update(id, {
-          render: response.data.msg,
+          render: error.response.data.msg, 
           type: 'error',
           isLoading: false,
           autoClose: 5000,
@@ -122,7 +127,7 @@ export default function Login() {
               <button
                 onClick={onLogin}
                 className='w-full bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none bg-blue-600 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'>
-                Create an account
+                Login
               </button>
 
               <p className='text-sm font-light text-gray-500'>

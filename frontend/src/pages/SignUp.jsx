@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 
 
 export default function SignUp() {
@@ -39,6 +39,7 @@ export default function SignUp() {
           isLoading: false,
           autoClose: 5000,
         });
+        return redirect("/home");
       } else {
         toast.error('Error while creating account');
       }

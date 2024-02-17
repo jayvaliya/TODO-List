@@ -5,13 +5,13 @@ import Todo from '../components/Todo';
 
 export default function Home() {
   return (
-    <div className='xl:flex md bg-zinc-400 h-screen w-screen overflow-hidden'>
+    <div className='xl:flex md h-screen w-screen overflow-hidden'>
       <div>
         <CreateTodo />
       </div>
       <TodoList />
       {/* <Todo/> */}
-
+      
     </div>
   );
 }

@@ -26,12 +26,12 @@ router.post('/signup', async (req, res) => {
         const user = await User.findOne({ email });
 
         if (user) {
-            res.status().json({ msg: "User alrady exist." });
+            res.status(411).json({ msg: "User alrady exist." });
             return;
         }
 
         await User.create({ email, password });
-        res.status(201).json({ msg: "User created successfully." });
+        res.json({ msg: "User created successfully." });
 
     } catch (err) {
         res.status(500).json({ msg: "Internal server error in signup." });
@@ -52,13 +52,13 @@ router.post('/login', async (req, res) => {
         const user = await User.findOne({ email, password });
         if (user) {
             const token = jwt.sign({ email }, jwtPassword);
-            res.status(200).json({ token });
+            res.status(200).json({
+                token,
+                msg: "Loged in successfully"
+            });
             return;
         }
-        res.json({ msg: "Invalid email or password." });
-
-        return;
-
+        res.status(411).json({ msg: "Invalid email or password." });
     } catch (err) {
         res.status(500).json({ msg: "Internal server error in login." });
     }
@@ -166,7 +166,7 @@ router.post('/delete', userMiddleware, async (req, res) => {
                 '$pull': { todoList: id }
             });
         } else {
-            res.json({ msg: "Todo not found." });
+            res.status(404).json({ msg: "Todo not found." });
         }
         res.json({ msg: "Deleted successfully." });
 
