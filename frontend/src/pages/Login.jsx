@@ -1,34 +1,40 @@
 import React from 'react';
-import { toast } from 'react-toastify';
-import { useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
-export default function SignUp() {
-  // const notify = () => toast.error('This is notification.', { theme: 'dark' });
-  const url = 'https://justdoit-x194.onrender.com/user/signup';
+export default function Login() {
+  const url = 'https://justdoit-x194.onrender.com/user/login';
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
-    confirmPassword: '',
   });
 
-  // Signup logic
-  const onSignup = async (e) => {
+  const handleChange = async (event) => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [name]: value });
+    // console.log(formValues)
+  };
+
+
+
+  // login logic
+  const onLogin = async (e) => {
     e.preventDefault();
-  
-    if (!formValues.email || !formValues.password || formValues.password !== formValues.confirmPassword) {
+
+    if ( !formValues.email || !formValues.password ) {
       toast.error('Please check your input fields.');
       return;
     }
 
     const id = toast.loading('Please wait...');
-  
+
     try {
       const response = await axios.post(url, {
         email: formValues.email,
         password: formValues.password,
       });
-  
+
       // Assuming your server returns a status and a message
       if (response.status === 200) {
         toast.update(id, {
@@ -37,12 +43,13 @@ export default function SignUp() {
           isLoading: false,
           autoClose: 5000,
         });
+        return;
       } else {
         toast.error('Error while creating account');
       }
     } catch (error) {
       console.error(error);
-  
+
       if (error.response) {
         // The request was made, but the server responded with a status code
         // that falls out of the range of 2xx
@@ -61,14 +68,6 @@ export default function SignUp() {
       }
     }
   };
-
-  // function to set input feilds
-  const handleChange = async (event) => {
-    const { name, value } = event.target;
-    setFormValues({ ...formValues, [name]: value });
-    // console.log(formValues)
-  };
-
   return (
     <section className='bg-gray-50 text-black'>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
@@ -84,7 +83,7 @@ export default function SignUp() {
         <div className='w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0'>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
             <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl'>
-              Create and account
+              Login to your account
             </h1>
             <form className='space-y-4 md:space-y-6' action='#'>
               <div>
@@ -121,25 +120,8 @@ export default function SignUp() {
                   value={formValues.password}
                 />
               </div>
-              <div>
-                <label
-                  htmlFor='confirm-password'
-                  className='block mb-2 text-sm font-medium text-gray-900'>
-                  Confirm password
-                </label>
-                <input
-                  type='password'
-                  name='confirmPassword'
-                  id='confirm-password'
-                  placeholder='••••••••'
-                  className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
-                  required=''
-                  onChange={handleChange}
-                  value={formValues.confirmPassword}
-                />
-              </div>
               <button
-                onClick={onSignup}
+                onClick={onLogin}
                 className='w-full bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none bg-blue-600 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'>
                 Create an account
               </button>

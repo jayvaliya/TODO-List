@@ -7,6 +7,10 @@ const { createTodo, updateTodo, login } = require("../types");
 const jwtPassword = process.env.jwtPassword;
 
 
+
+
+// NOTE:-   /signup and /login both routes should have password encryption logic.
+
 router.post('/signup', async (req, res) => {
     try {
         const creatPayload = req.body;
@@ -23,6 +27,7 @@ router.post('/signup', async (req, res) => {
 
         if (user) {
             res.json({ msg: "User alrady exist." });
+            return;
         }
 
         await User.create({ email, password });
@@ -33,7 +38,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-router.post('/signin', async (req, res) => {
+router.post('/login', async (req, res) => {
     try {
         const creatPayload = req.body;
         const parsedPayload = login.safeParse(creatPayload);
@@ -55,7 +60,7 @@ router.post('/signin', async (req, res) => {
         return;
 
     } catch (err) {
-        res.status(500).json({ msg: "Internal server error in sighin." });
+        res.status(500).json({ msg: "Internal server error in login." });
     }
 });
 
@@ -110,7 +115,6 @@ router.post('/todo', userMiddleware, async (req, res) => {
 });
 
 router.post('/completed', userMiddleware, async (req, res) => {
-    // body: {_id}
     try {
         const creatPayload = req.body;
         const parsedPayload = updateTodo.safeParse(creatPayload);
