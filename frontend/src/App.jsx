@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
@@ -14,10 +14,13 @@ import 'react-toastify/dist/ReactToastify.css';
 */
 
 function App() {
+  useEffect(()=>{
+    toast.warn("server may take few second to wake up, Please wait",{autoClose: 7000,})
+  },[]);
   const [count, setCount] = useState(0);
 
   return (
-    <div className=' overflow-hidden'>
+    <div className='overflow-hidden m-0 p-0'>
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />}></Route>

@@ -28,11 +28,13 @@ export default function Home() {
   // },[]);
 
   return (
-    <div className='xl:flex md h-screen w-screen overflow-y-auto'>
+    <div className='xl:flex justify-center md h-screen w-screen overflow-y-auto'>
       <div>
-        <CreateTodo fetchTodos={fetchTodos}/>
+        <CreateTodo fetchTodos={fetchTodos} setTodos={setTodos}/>
       </div>
-      <TodoList fetchTodos={fetchTodos} todos={todos} />
+      <div className='flex justify-center'>
+        <TodoList fetchTodos={fetchTodos} todos={todos} />
+      </div>
       {/* <Todo/> */}
       
     </div>

@@ -100,11 +100,16 @@ router.post('/todo', userMiddleware, async (req, res) => {
     const { title, description } = req.body;
     
     const todo = await Todos.create({ title, description });
-    
+    console.log(todo);
     const user = await User.updateOne(
       { email },
       {
-        $push: { todoList: todo.id },
+        $push: { 
+          todoList: {
+            $each: [todo._id],
+            $position: 0 
+          }
+        },
       }
       );
     if (user.modifiedCount) {
