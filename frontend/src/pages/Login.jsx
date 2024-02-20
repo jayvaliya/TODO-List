@@ -1,32 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function Login() {
-  const url = 'https://justdoit-x194.onrender.com/user/login';
+  // const url = 'https://justdoit-x194.onrender.com/user/login';
+
+  const navigate = useNavigate();
+
+  const url = 'http://localhost:3000/user/login';
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
   });
-
-  const handleChange = async (event) => {
+  
+  const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
   };
-
-
+  
+  
   // login logic------------------------------------
   const onLogin = async (e) => {
     e.preventDefault();
+    
   
     if (!formValues.email || !formValues.password) {
       toast.error('Please enter email and password.');
       return;
     }
-
+  
     const id = toast.loading('Please wait...');
   
     try {
@@ -34,7 +39,7 @@ export default function Login() {
         email: formValues.email,
         password: formValues.password
       });
-      console.log(response);
+      // console.log(response);
       if (response.status == 200) {
         toast.update(id, {
           render: response.data.msg,
@@ -42,7 +47,11 @@ export default function Login() {
           isLoading: false,
           autoClose: 5000,
         });
-        localStorage.setItem('jwt', JSON.stringify(response.data.token));
+        localStorage.setItem("token", response.data.token);
+        // console.log(localStorage);
+        
+        navigate('/');
+
       } else {
         toast.update(id, {
           render: response.data.msg, 
@@ -55,8 +64,6 @@ export default function Login() {
       console.error(error);
   
       if (error.response) {
-        // The request was made, but the server responded with a status code
-        // that falls out of the range of 2xx
         toast.update(id, {
           render: error.response.data.msg, 
           type: 'error',
@@ -64,10 +71,8 @@ export default function Login() {
           autoClose: 5000,
         });
       } else if (error.request) {
-        // The request was made but no response was received
         toast.error('No response received from the server.');
       } else {
-        // Something happened in setting up the request that triggered an Error
         toast.error('Error setting up the request.');
       }
     }

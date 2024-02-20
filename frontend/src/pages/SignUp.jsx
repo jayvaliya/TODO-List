@@ -2,12 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import { Link, redirect } from "react-router-dom";
-
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
+  let navigate = useNavigate();
   // const notify = () => toast.error('This is notification.', { theme: 'dark' });
-  const url = 'https://justdoit-x194.onrender.com/user/signup';
+  // const url = 'https://justdoit-x194.onrender.com/user/signup';
+  const url = 'http://localhost:3000/user/signup';
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
@@ -17,35 +18,44 @@ export default function SignUp() {
   // Signup logic
   const onSignup = async (e) => {
     e.preventDefault();
-  
-    if (!formValues.email || !formValues.password || formValues.password !== formValues.confirmPassword) {
-      toast.error('Please check your input fields.');
+
+    if (
+      !formValues.email ||
+      !formValues.password ||
+      formValues.password !== formValues.confirmPassword
+    ) {
+      toast.error('Please check your input fields');
       return;
     }
 
     const id = toast.loading('Please wait...');
-  
+
     try {
       const response = await axios.post(url, {
         email: formValues.email,
         password: formValues.password,
       });
-  
-      // Assuming your server returns a status and a message
+
       if (response.status === 200) {
         toast.update(id, {
-          render: response.data.msg, // Make sure your server returns the correct structure
+          render: response.data.msg,
           type: 'success',
           isLoading: false,
           autoClose: 5000,
         });
-        return redirect("/home");
+        localStorage.setItem('token', response.data.token);
+        navigate('/');
       } else {
-        toast.error('Error while creating account');
+        toast.update(id, {
+          render: response.data.msg,
+          type: 'error',
+          isLoading: false,
+          autoClose: 5000,
+        });
       }
     } catch (error) {
       console.error(error);
-  
+
       if (error.response) {
         // The request was made, but the server responded with a status code
         // that falls out of the range of 2xx
@@ -57,10 +67,20 @@ export default function SignUp() {
         });
       } else if (error.request) {
         // The request was made but no response was received
-        toast.error('No response received from the server.');
+        toast.update(id, {
+          render: 'Surver is not responding',
+          type: 'error',
+          isLoading: false,
+          autoClose: 5000,
+        });
       } else {
         // Something happened in setting up the request that triggered an Error
-        toast.error('Error setting up the request.');
+        toast.update(id, {
+          render: 'Error setting up the request.', // Assuming your server returns an error message
+          type: 'error',
+          isLoading: false,
+          autoClose: 5000,
+        });
       }
     }
   };
@@ -69,7 +89,7 @@ export default function SignUp() {
   const handleChange = async (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
-    // console.log(formValues)
+    // // console.log(formValues)
   };
 
   return (
@@ -98,6 +118,7 @@ export default function SignUp() {
                   Your email
                 </label>
                 <input
+                  autoComplete='on'
                   type='email'
                   name='email'
                   id='email'

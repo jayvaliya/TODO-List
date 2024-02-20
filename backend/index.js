@@ -19,7 +19,8 @@ const limiter = rateLimit({
 
 // app.use(limiter);
 
-app.use(express.json()); //To access body of request.
+app.use(express.json());
+
 app.use(
   cors({
     origin: 'http://localhost:5173',
@@ -33,5 +34,5 @@ app.all('*', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log('Server is running on port', port);
+  // console.log('Server is running on port', port);
 });

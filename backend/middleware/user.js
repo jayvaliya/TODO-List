@@ -6,15 +6,18 @@ function userMiddleware(req, res, next) {
     // You need to check the headers and validate the user from the user DB. Check readme for the exact headers to be expected
     try {
         const token = req.headers['authorization'];
+        // console.log(token);
         const decoded = jwt.verify(token, jwtPassword);
-        if (decoded.email) {
-            req.email=decoded.email;
+        if (decoded) {
+            // there is a small bug in the next line. be careful
+            req.email=decoded;
             next();
         } else {
-            res.json({ msg: "Invalid token." });
+            res.status(411).json({ msg: "Invalid token" });
         }
     } catch (err) {
-        res.json({ msg: "Internal server error in authentication." });
+        // res.json({ msg: "Internal server error in authentication" });
+        res.status(500).json(err);
     }
 }
 

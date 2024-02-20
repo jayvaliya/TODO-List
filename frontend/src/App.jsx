@@ -21,10 +21,10 @@ function App() {
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />}></Route>
-        <Route path='signup' element={<SignUp />}></Route>
-        <Route path='login' element={<Login />}></Route>
-        <Route path='home' element={<Home />}></Route>
-        <Route path='about' element={<About />}></Route>
+        <Route path='/signup' element={<SignUp />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/home' element={<Home />}></Route>
+        <Route path='/about' element={<About />}></Route>
       </Routes>
       {/* <Home/> */}
       <ToastContainer
@@ -34,7 +34,7 @@ function App() {
         newestOnTop={false}
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
+        pauseOnFocusLoss={false}
         draggable
         pauseOnHover
         theme='dark'
