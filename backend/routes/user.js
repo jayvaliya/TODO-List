@@ -64,7 +64,7 @@ router.post('/login', async (req, res) => {
 
 router.get('/todo', userMiddleware, async (req, res) => {
   try {
-    const email = req.email;
+    const email = req.email.email;
     // console.log(email);
 
     const user = await User.findOne({ email });
@@ -76,11 +76,11 @@ router.get('/todo', userMiddleware, async (req, res) => {
       },
     });
 
-    res.status(200).send({ todos } );
+    res.send({ todos });
     
   } catch (error) {
     console.error('Error getting Todos:', error);
-    res.json({ msg: 'Internal Server Error in getting todo' });
+    res.json({ msg: 'Internal Server Error in getting todo', error });
   }
 });
 
