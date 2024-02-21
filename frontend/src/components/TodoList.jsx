@@ -55,7 +55,7 @@ export default function TodoList(props) {
     <div className='container xl:max-w-[90vw] lg:min-w-[60vw] m-2 sm:p-4 text-left overflow-y-auto mb-14'>
       <h2 className='mb-4 text-3xl font-semibold leading'>Tasks</h2>
       <div className='overflow-x-auto'>
-        {todos.length > 0 ? (
+        {todos && (
           <table className='min-w-full text-base sm:text-lg table-auto bg-gray-200 rounded-xl overflow-hidden'>
             <colgroup>
               <col span='1' className='w-[20%] border-r-2 border-gray-400' />
@@ -103,7 +103,7 @@ export default function TodoList(props) {
               ))}
             </tbody>
           </table>
-        ) : (
+        ) || (
           <h1 className="text-xl font-semibold text-gray-600">No todos yet.</h1>
         )}
       </div>
