@@ -103,7 +103,7 @@ export default function TodoList(props) {
               ))}
             </tbody>
           </table>
-        ) : (
+        ) || (
           <h1 className="text-xl font-semibold text-gray-600">No todos yet.</h1>
         )}
       </div>
