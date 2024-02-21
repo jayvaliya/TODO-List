@@ -16,7 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   useEffect(()=>{
-    toast.warn("server may take few second to wake up, Please Be Patient",{autoClose: 6000,})
+    toast.warn("server might take few second to wake up, Please Be Patient",{autoClose: 6000,})
   },[]);
 
   return (

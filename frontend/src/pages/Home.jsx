@@ -14,8 +14,7 @@ export default function Home() {
   const fetchTodos = async () => {
     const responce = await axios.get('https://justdoit-x194.onrender.com/user/todo', {
       headers: {
-        // authorization: localStorage.getItem('token'),
-        authorization: "eyJhbGciOiJIUzI1NiJ9.dmFsaXlhamF5NTU1QGdtYWlsLmNvbQ.IuOoaph998r2KCbXoay7ITSl-Z8AMGOBkr61_10e4zc",
+        authorization: localStorage.getItem('token'),
       },
     });
 

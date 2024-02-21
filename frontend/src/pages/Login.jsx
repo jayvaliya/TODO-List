@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 
 export default function Login() {
+  // const url = 'http://localhost:3000/user/login';
   // const url = 'https://justdoit-x194.onrender.com/user/login';
 
   const navigate = useNavigate();
@@ -71,9 +72,19 @@ export default function Login() {
           autoClose: 5000,
         });
       } else if (error.request) {
-        toast.error('No response received from the server.');
+        toast.update(id, {
+          render: 'No response received from the server', 
+          type: 'error',
+          isLoading: false,
+          autoClose: 5000,
+        });
       } else {
-        toast.error('Error setting up the request.');
+        toast.update(id, {
+          render: 'Error setting up the request', 
+          type: 'error',
+          isLoading: false,
+          autoClose: 5000,
+        });
       }
     }
   };
