@@ -12,9 +12,8 @@ export default function Navbar() {
     { label: 'Home', to: '/' },
     { label: 'About', to: '/about' },
     { label: 'Contact Dev', to: '/contact' },
-    // Add more navigation items as needed
   ];
-
+  
   return (
     <header className='bg-white shadow-lg'>
       <div className='mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8'>
