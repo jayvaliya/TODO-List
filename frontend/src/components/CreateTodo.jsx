@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 export default function CreateTodo(props) {
   const { fetchTodos, setTodos } = props;
-  const url = 'http://localhost:3000/user/todo';
+  const url = 'https://justdoit-x194.onrender.com/user/todo';
   const [formValues, setFormValues] = useState({
     title: '',
     description: '',
@@ -38,15 +38,8 @@ export default function CreateTodo(props) {
           description: '',
         });
       }
-      // console.log(responce);
-      // toast.update(id, {
-      //   render: responce.data.msg,
-      //   type: responce.status == 200 ? 'success' : 'error',
-      //   isLoading: false,
-      //   autoClose: 800,
-      // });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
 
       if (error.responce) {
         toast.update(id, {

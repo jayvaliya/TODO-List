@@ -6,6 +6,7 @@ import About from './pages/About';
 import Navbar from './components/Navbar';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
+import Contact from './pages/Contact';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,12 +16,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   useEffect(()=>{
-    toast.warn("server may take few second to wake up, Please wait",{autoClose: 7000,})
+    toast.warn("server may take few second to wake up, Please Be Patient",{autoClose: 6000,})
   },[]);
-  const [count, setCount] = useState(0);
 
   return (
-    <div className='overflow-hidden m-0 p-0'>
+    <div className='overflow-hidden m-0 p-0 font-inter'>
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />}></Route>
@@ -28,6 +28,7 @@ function App() {
         <Route path='/login' element={<Login />}></Route>
         <Route path='/home' element={<Home />}></Route>
         <Route path='/about' element={<About />}></Route>
+        <Route path='/contact' element={<Contact />}></Route>
       </Routes>
       {/* <Home/> */}
       <ToastContainer
@@ -39,7 +40,7 @@ function App() {
         rtl={false}
         pauseOnFocusLoss={false}
         draggable
-        pauseOnHover
+        pauseOnHover={false}
         theme='dark'
       />
     </div>

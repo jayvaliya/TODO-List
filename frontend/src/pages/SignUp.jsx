@@ -8,7 +8,7 @@ export default function SignUp() {
   let navigate = useNavigate();
   // const notify = () => toast.error('This is notification.', { theme: 'dark' });
   // const url = 'https://justdoit-x194.onrender.com/user/signup';
-  const url = 'http://localhost:3000/user/signup';
+  const url = 'https://justdoit-x194.onrender.com/user/signup';
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
@@ -89,21 +89,27 @@ export default function SignUp() {
   const handleChange = async (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
-    // // console.log(formValues)
+    // console.log(formValues)
   };
 
   return (
     <section className='bg-gray-50 text-black'>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
         <Link
-          to='home'
-          className='flex items-center mb-6 text-2xl font-semibold text-gray-900'>
-          <img
-            className='w-8 h-8 mr-2'
-            src='https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg'
-            alt='logo'
-          />
-          lorem ipsum
+          to='/signup'
+          className='flex items-center gap-3 mb-6 text-2xl font-semibold text-gray-900'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            className=' text-blue-600'
+            x='0px'
+            y='0px'
+            width='40'
+            height='40'
+            fill='currentColor'
+            viewBox='0 0 64 64'>
+            <path d='M32,6C17.641,6,6,17.641,6,32c0,14.359,11.641,26,26,26s26-11.641,26-26C58,17.641,46.359,6,32,6z M29,42L18,31l2-3l9,6 l13.957-12L46,25L29,42z'></path>
+          </svg>
+          <span>Sign up to MustDoIt</span>
         </Link>
         <div className='w-full bg-white rounded-lg shadow-lg shadow-gray-400 md:mt-0 sm:max-w-md xl:p-0'>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>

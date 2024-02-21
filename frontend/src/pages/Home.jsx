@@ -8,12 +8,11 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function Home() {
   const navigate = useNavigate();
 
-
   const [todos, setTodos] = useState([]);
   // const authorization = localStorage.getItem('token');
 
   const fetchTodos = async () => {
-    const responce = await axios.get('http://localhost:3000/user/todo', {
+    const responce = await axios.get('https://justdoit-x194.onrender.com/user/todo', {
       headers: {
         // authorization: localStorage.getItem('token'),
         authorization: "eyJhbGciOiJIUzI1NiJ9.dmFsaXlhamF5NTU1QGdtYWlsLmNvbQ.IuOoaph998r2KCbXoay7ITSl-Z8AMGOBkr61_10e4zc",
@@ -21,7 +20,7 @@ export default function Home() {
     });
 
     await setTodos(responce.data['todos']);
-    console.log(todos);
+    // console.log(todos);
   };
   // useEffect(()=>{
   //   if(localStorage.token);
